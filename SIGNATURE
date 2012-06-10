@@ -1,0 +1,116 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.68.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It will check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 21b887952148720b460166df1e03ef125c5ebfa8 Changes
+SHA1 853bc855a00b9bdea9891a5531c4e22e2212936a LICENSE
+SHA1 6f7174c4c89c634a678c4b4fa671f9b2e5d4408e MANIFEST
+SHA1 0b0566046506a3f223f6e71b687683bce0f43e6c META.yml
+SHA1 33dc2d26db6907871799c6dffb264b6ae9520d82 Makefile.PL
+SHA1 070065f84d4dc1130c5f3fff3798a8c16297893d README
+SHA1 428feb382a6bd2c283dd9d5bbf2285c1d07e36a2 THANKS
+SHA1 cf963a9508e986349a37e83719309d102fec813c TODO
+SHA1 26f48627ed76dcb72d4d0b0622e9983b3628f350 doc/ciscoospf2yaml.pod
+SHA1 6d07d96622c13e07068334c9651183ec2ed2e66b doc/gated2yaml.pod
+SHA1 fa76cce43b416c6b8907a096d0f3d868520c582d doc/ospf2dot.pod
+SHA1 c8d0dc0169eb4ff16c301ba5a0b7f4f038b88169 doc/ospfconvert.pod
+SHA1 fb5d735c528f9d1940871b31a351ba97b2391d48 doc/ospfd2yaml.pod
+SHA1 b71175623a82f9ebbc26a7987e1fe170ea5fe244 doc/ospfview.pod
+SHA1 b9077b3b6c54ad080a440375ee0577d659dcf049 example/all.dot
+SHA1 a759b2a67e4c0469c391517e31da62b8e333435f example/all.yaml
+SHA1 412a39ea772d98fee7e01a2ec7f622cf86ed6615 example/cisco.boundary
+SHA1 ddabc699b1a71e6deb356f78bf2ff075d7c2c9a6 example/cisco.external
+SHA1 1df56adfa5633b942d5c89a203af995d1a816b25 example/cisco.network
+SHA1 79637eacd4f7c64e2674050887bc7539187dad18 example/cisco.router
+SHA1 cf35e8459630371d548b0e8a4cb15775fd0fc77d example/cisco.selfid
+SHA1 07c0e6a92ef7ac51c7b22f7a38556d8595a976b0 example/cisco.summary
+SHA1 e4039b782177accb07244e3b5d35d60a0ccacf79 example/cisco.yaml
+SHA1 41f5d7d2cb4283bf74d86150f3113fe4dfa981d1 example/gated.dump
+SHA1 136c5f2ca935b7d453741128f2198bee80392b9e example/gated.yaml
+SHA1 286f07941034af0779fd20ab48715827773dab14 example/icon.dot
+SHA1 5a762812fb925f94b49fb469e9ba21447970e0d3 example/legend.dot
+SHA1 3e1f2cd008d79426cef53f04509e8ae57053d0b5 example/legend6.dot
+SHA1 df46d43736e4b4b7d112c576c135ee95f4b88d2e example/old.yaml
+SHA1 a4160954708d55d3f2c18a6b19ee888f1f5d8077 example/ospf.dot
+SHA1 a0f838c7bf994690911d9bd783f093d66ab1e811 example/ospf.yaml
+SHA1 da39a3ee5e6b4b0d3255bfef95601890afd80709 example/ospf6d.boundary
+SHA1 62d3c776e3dfb9c9852433d7eb2b4970469a4ca4 example/ospf6d.external
+SHA1 e633177af96baffec767259527f7c40a9557e090 example/ospf6d.intra
+SHA1 b219b168659af64094253c21a373e953722a3f4c example/ospf6d.link
+SHA1 b0424102da22fc5ced11e0708023cbdaa71a80c5 example/ospf6d.network
+SHA1 6baa9e4e2cbca786d7ed5109fae865cbeec9f555 example/ospf6d.router
+SHA1 b4a1ed13039037de518235ba26c062b039be144b example/ospf6d.selfid
+SHA1 da39a3ee5e6b4b0d3255bfef95601890afd80709 example/ospf6d.summary
+SHA1 042fad2da5d26929d6c8b421b0bf00c51e1c84dd example/ospf6d.yaml
+SHA1 31cabccc452aeb39c321ec01ea233f9384224103 example/ospfd.boundary
+SHA1 897c45cdab2d85e1c99ee36b111968f1fe34dd37 example/ospfd.external
+SHA1 a4e3feb9aa76f8e2e0d1ce5c018ee4326f8374d3 example/ospfd.network
+SHA1 260799c9a3a57daaa85b877c092b5254f244c26c example/ospfd.router
+SHA1 912aed5fc3f3885602127d146ad48449a3b0b22d example/ospfd.selfid
+SHA1 61dde319e34ba28fce0c982e7914f6eb92337f8d example/ospfd.summary
+SHA1 4109677b814d73c1748c987774cdbebcf0c032c6 example/ospfd.yaml
+SHA1 41b20565485a369e158dafc5664f486a19ded96f lib/OSPF/LSDB.pm
+SHA1 997ce7d3d00dbf238293d3898b826d1d54d3f6c9 lib/OSPF/LSDB/Cisco.pm
+SHA1 1b481fb0c2693fae7f78823f33fcb246e7da336e lib/OSPF/LSDB/View.pm
+SHA1 09718722aab92eccbfca43636934ce23f62bbfc8 lib/OSPF/LSDB/View6.pm
+SHA1 31b6f4558f634ae461178a224494c5c3e6a6c462 lib/OSPF/LSDB/YAML.pm
+SHA1 a623207604d51b98b8321017134b6436cbca04e6 lib/OSPF/LSDB/gated.pm
+SHA1 9feefcfb1dee05f2f970f33e50f103ca527b4f6d lib/OSPF/LSDB/ospf6d.pm
+SHA1 2139ce201180b36e0356c9b49ecb2fb3dc7aed8a lib/OSPF/LSDB/ospfd.pm
+SHA1 f96e6b56e57cfc500a1bd98721ca1fd268619728 script/ciscoospf2yaml
+SHA1 6ca277a6e430fd970152a6e9ee983d58af8413cd script/gated2yaml
+SHA1 9a9b71904142001851dd61944e5fb8224a9f4574 script/ospf2dot
+SHA1 5a7ae640fb68ba1a3e190eba3c6d4fb86e25b846 script/ospfconvert
+SHA1 a00441650b9e67c23b7192a48486c72a4db220b1 script/ospfd2yaml
+SHA1 20297b46e43b1fdad7e19f49eb72bedebff0e17b script/ospfview
+SHA1 0300e36313144a8dfc1abb215b3bc91334b407a2 t/dot-tests.pl
+SHA1 c0025f441a38e53ce052febd0f8735a056a8bfb4 t/dot.t
+SHA1 a7051f61f42c7e91a118ab4105824190c7af1466 t/dot6-tests.pl
+SHA1 6866b0b99cda3c879dfec6c1c4bced90e804a4e2 t/dot6.t
+SHA1 049bb918de3f6957a42529cd952f10bc22577c83 t/example-cisco.t
+SHA1 a86fc4d40e2412bde20ce0ae012f114ab29901fa t/example-gated.t
+SHA1 e90101ffcdb39e568fe7ef3de1be144e4d398e9a t/example-ospf6d.t
+SHA1 3b66ff36c7b5f0afab8c835bd0292fe066f87102 t/example-ospfd.t
+SHA1 7f46b19ae7521c03a3cacf0c422af89b048c5fdb t/example-view.t
+SHA1 ebbf1df2c95c42add4b9ef1c28e1e9216e126281 t/ipv6.t
+SHA1 568029804c81acac19e83d059a84b54d0e013621 t/parse-ospf6d-external.t
+SHA1 72eb1804fcb6c41c7ad3ce744d64698fd5bd8819 t/parse-ospf6d-network.t
+SHA1 b2960994f1d270795b49f88dfc2a4a7904dfb9d5 t/parse-ospf6d-router.t
+SHA1 841480f71eac33e5a6f0fe0795e8892291f6f10c t/parse-ospf6d-self.t
+SHA1 0cf33987dbad2413502eac891e6597a4a1cab3ef t/parse-ospfd-boundary.t
+SHA1 d94932bdaa5166cbc041596286e6591e1eb2bd62 t/parse-ospfd-external.t
+SHA1 284d111102feff67e69e9c582718f134399d4c1c t/parse-ospfd-network.t
+SHA1 89a5bcba2d3c69bba57f95b8890c26417937e58c t/parse-ospfd-router.t
+SHA1 8c0f3c066a62730e881d230dadb762889dc84931 t/parse-ospfd-self.t
+SHA1 4e0e0250af3b206f7c74941aa8fa0880f863412e t/parse-ospfd-summary.t
+SHA1 7e686e6f180fefb9bc9063e97e76c5c0d75a72d4 t/pod.t
+SHA1 89f1a92c992fe61fbf69655fc6e50797e6f4d86a t/script-gated2yaml.t
+SHA1 a0af97c29f91f922a4eb6858eaef1efd8a82b217 t/script-ospf2dot.t
+SHA1 abf00ba9ed11235f1ec496460b68a76f66a7040a t/script-ospfconvert.t
+SHA1 18c6f3a65a6175655f05b38b495ac100f682fa64 t/script-ospfd2yaml.t
+SHA1 8dab5c9e40d6328323e28ea6e246e2e1fd72d5ba t/script-usage.t
+SHA1 33a9732ffa23f720a7eebf82e6f9e525a871c502 t/syntax-lib.t
+SHA1 59f4e059e10ae0e3fa3eda683de5212133cd7e3e t/syntax-pod.t
+SHA1 b2007b0be50caee3a6cec88fdb3bd30b220ca9fb t/syntax-script.t
+SHA1 4a7635b7c037adffcaee91a53f97f0f0ba71535d t/validate.t
+SHA1 1b92f72b2d9dc5ed32dc0feb894e57b7dcf07206 t/yaml-file.t
+SHA1 4ee6c76a30bd5d21051110e08957dfe40a4611b8 t/yaml-string.t
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (OpenBSD)
+
+iEYEARECAAYFAk/VMyUACgkQaO3jKFvkT5GvIACgg5xdYkk//kWlY+kD0bIveTIa
+jm8An3V4lR1YwiWuMXnBfFWMQuR3HVri
+=+BMM
+-----END PGP SIGNATURE-----
