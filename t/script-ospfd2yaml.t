@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use File::Slurp qw(slurp);
 use File::Temp;
-use Test::More tests => 2;
+use Test::More tests => 2 * 3;
 
 my %tmpargs = (
     SUFFIX => ".yaml",
@@ -15,8 +15,8 @@ my %tmpargs = (
 
 my $tmp = File::Temp->new(%tmpargs);
 
-my @incs = map { ('-I', $_) } @INC;
-my @cmd = ('perl', @incs, "script/ospfd2yaml",
+$0 = "script/ospfd2yaml";
+@ARGV = (
     '-B', "example/ospfd.boundary",
     '-E', "example/ospfd.external",
     '-I', "example/ospfd.selfid",
@@ -24,10 +24,14 @@ my @cmd = ('perl', @incs, "script/ospfd2yaml",
     '-R', "example/ospfd.router",
     '-S', "example/ospfd.summary",
     $tmp->filename);
-system(@cmd);
-is($?, 0, "exit") or diag("Command '@cmd' failed: $?");
+undef *main;
+undef *usage;
+my $done = do $0;
+ok(!$@, "$0 parse") or diag("Parse $0 failed: $@");
+ok(defined $done, "$0 do") or diag("Do $0 failed: $!");
+ok($done, "$0 run") or diag("Run $0 failed");
 
-@cmd = ('perl', @incs, "script/ospfd2yaml",
+@ARGV = (
     '-6',
     '-B', "example/ospf6d.boundary",
     '-E', "example/ospf6d.external",
@@ -38,5 +42,9 @@ is($?, 0, "exit") or diag("Command '@cmd' failed: $?");
     '-R', "example/ospf6d.router",
     '-S', "example/ospf6d.summary",
     $tmp->filename);
-system(@cmd);
-is($?, 0, "exit 6") or diag("Command '@cmd' failed: $?");
+undef *main;
+undef *usage;
+$done = do $0;
+ok(!$@, "$0 parse 6") or diag("Parse $0 -6 failed: $@");
+ok(defined $done, "$0 do 6") or diag("Do $0 -6 failed: $!");
+ok($done, "$0 run 6") or diag("Run $0 -6 failed");

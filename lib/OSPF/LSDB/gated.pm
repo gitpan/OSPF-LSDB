@@ -503,7 +503,7 @@ The methods die if any error occurs.
 
 L<OSPF::LSDB>
 
-gated2yaml(1)
+L<gated2yaml>
 
 =head1 AUTHORS
 

@@ -85,7 +85,7 @@ L<OSPF::LSDB::Cisco>,
 L<OSPF::LSDB::YAML>,
 L<OSPF::LSDB>
 
-ospf2dot(1),
+L<ospf2dot>
 
 =head1 AUTHOR
 

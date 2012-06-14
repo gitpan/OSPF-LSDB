@@ -1,8 +1,9 @@
 --- #YAML:1.0
 name:               OSPF-LSDB
-version:            1.00
+version:            1.01
 abstract:           ~
-author:  []
+author:
+    - BLUHM (bluhm@cpan.org)
 license:            unknown
 distribution_type:  module
 configure_requires:
@@ -13,9 +14,12 @@ requires:
     Data::Validate:       0
     Data::Validate::Struct:  0
     File::Slurp:          0
+    List::MoreUtils:      0
     Regexp::Common:       0
     Regexp::IPv6:         0
     Test::NoWarnings:     0
+    Test::Pod:            0
+    Test::Strict:         0
     YAML::Syck:           0
 no_index:
     directory:

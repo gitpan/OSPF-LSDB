@@ -110,8 +110,10 @@ L<OSPF::LSDB::ospf6d>,
 L<OSPF::LSDB::YAML>,
 L<OSPF::LSDB>
 
-ospf2dot(1),
-ospfctl(8)
+L<ospf2dot>
+
+ospfctl(8),
+ospf6ctl(8)
 
 =head1 AUTHOR
 

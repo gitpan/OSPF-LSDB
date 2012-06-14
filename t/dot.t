@@ -11,6 +11,10 @@ use Test::More tests => 4*103 + 1;
 use OSPF::LSDB::YAML;
 use OSPF::LSDB::View;
 
+# check wether graphviz dot is installed
+`dot -?`;
+my $skipdot = ($? != 0) || $ENV{OSPFVIEW_DOT_SKIP};
+
 my %tmpargs = (
     SUFFIX => ".eps",
     TEMPLATE => "ospfview-dot-XXXXXXXXXX",
@@ -60,15 +64,19 @@ foreach my $t (@$tests) {
     is_deeply(\%clusters, $t->{clusters}, "$t->{id}: clusters")
       or diag(explain \%clusters);
 
-    my $tmp = File::Temp->new(%tmpargs,
-	TEMPLATE => "ospfview-dot-$t->{id}-XXXXXXXXXX",
-    );
-    my @cmd = ("dot", "-Tps", "-o", $tmp->filename);
-    open(my $fh, '|-', @cmd) or die "Open pipe to '@cmd' failed: $!";
-    print $fh $dot;
-    close($fh) or $! && die "Close pipe to '@cmd' failed: $!";
-    is($?, 0, "$t->{id}: dot exit code");
+    SKIP: {
+	skip "graphviz dot is not installed", 1 if $skipdot;
 
-    # set the environment variable OSPFVIEW_DOT_GV to view the result
-    system("gv", $tmp->filename) if $ENV{OSPFVIEW_DOT_GV};
+	my $tmp = File::Temp->new(%tmpargs,
+	    TEMPLATE => "ospfview-dot-$t->{id}-XXXXXXXXXX",
+	);
+	my @cmd = ("dot", "-Tps", "-o", $tmp->filename);
+	open(my $fh, '|-', @cmd) or die "Open pipe to '@cmd' failed: $!";
+	print $fh $dot;
+	close($fh) or $! && die "Close pipe to '@cmd' failed: $!";
+	is($?, 0, "$t->{id}: dot exit code");
+
+	# set the environment variable OSPFVIEW_DOT_GV to view the result
+	system("gv", $tmp->filename) if $ENV{OSPFVIEW_DOT_GV};
+    }
 }

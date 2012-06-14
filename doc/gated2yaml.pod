@@ -66,7 +66,8 @@ L<OSPF::LSDB::gated>,
 L<OSPF::LSDB::YAML>,
 L<OSPF::LSDB>
 
-ospf2dot(1),
+L<ospf2dot>
+
 gdc(8)
 
 =head1 AUTHOR

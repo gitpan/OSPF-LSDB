@@ -127,7 +127,7 @@ The methods die if any error occures.
 
 L<OSPF::LSDB>,
 
-ospfconvert(1)
+L<ospfconvert>
 
 =head1 AUTHORS
 

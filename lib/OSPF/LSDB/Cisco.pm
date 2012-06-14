@@ -470,7 +470,7 @@ The methods die if any error occurs.
 
 L<OSPF::LSDB>
 
-ciscoospf2yaml(1)
+L<ciscoospf2yaml>
 
 =head1 AUTHORS
 

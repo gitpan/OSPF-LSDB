@@ -3,8 +3,10 @@
 use strict;
 use warnings;
 use Test::More;
+use Test::Strict;
+use File::Find;
 
-my @scripts = qw(
+my @scripts = map { local $_ = $_; "script/$_" } qw(
     ciscoospf2yaml
     gated2yaml
     ospf2dot
@@ -13,11 +15,18 @@ my @scripts = qw(
     ospfview
 );
 
-plan tests => scalar @scripts;
+plan tests => 4 * @scripts;
 
-foreach (@scripts) {
-    my @incs = map { ('-I', $_) } @INC;
-    my @cmd = ('perl', @incs, '-c', "script/$_");
-    system(@cmd);
-    is($?, 0, $_) or diag("Command '@cmd' failed: $?");
+foreach my $file (@scripts) {
+    syntax_ok($file, "$file syntax") or diag("$file syntax check failed");
+    strict_ok($file, "$file strict") or diag("$file use strict missing");
+    warnings_ok($file, "$file warnings") or diag("$file use warnings missing");
 }
+
+my %files = map { $_ => 1 } @scripts;
+sub wanted {
+    ! /[A-Z]/ && -f or return;
+    ok($files{$File::Find::name}, "$File::Find::name file")
+	or diag("Executable file $File::Find::name not in script list");
+}
+find(\&wanted, "script");

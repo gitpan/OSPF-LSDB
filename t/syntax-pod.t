@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use Test::More;
 use Pod::Checker;
+use File::Find;
 
 my @pods;
 push @pods, map { "doc/$_.pod" } qw(
@@ -24,7 +25,8 @@ push @pods, map { local $_ = $_; s,::,/,g; "lib/$_.pm" } qw(
     OSPF::LSDB::ospfd
     OSPF::LSDB::ospf6d
 );
-plan tests => 2 * scalar @pods;
+
+plan tests => 3 * @pods;
 
 foreach (@pods) {
     my $checker = Pod::Checker->new(-warnings => 1);
@@ -34,3 +36,11 @@ foreach (@pods) {
     my $warn = $checker->num_warnings();
     is($warn, 0, "$_ warning") or diag("Found $warn POD warnings in $_");
 }
+
+my %files = map { $_ => 1 } @pods;
+sub wanted {
+    /\.(pod|pm)$/ && -f or return;
+    ok($files{$File::Find::name}, "$File::Find::name file")
+	or diag("Pod file $File::Find::name not in doc or lib list");
+}
+find(\&wanted, "doc", "lib");

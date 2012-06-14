@@ -2589,8 +2589,8 @@ All warnings may be optained with the L<get_errors> method.
 L<OSPF::LSDB>,
 L<OSPF::LSDB::View6>
 
-ospf2dot(1),
-ospfview(1)
+L<ospf2dot>,
+L<ospfview>
 
 RFC 2328 - OSPF Version 2 - April 1998
 

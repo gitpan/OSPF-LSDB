@@ -453,7 +453,7 @@ The methods die if any error occurs.
 L<OSPF::LSDB>,
 L<OSPF::LSDB::ospfd>
 
-ospfd2yaml(1)
+L<ospfd2yaml>
 
 =head1 AUTHORS
 

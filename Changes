@@ -1,3 +1,12 @@
+1.01 2012-06-14
+    - fix links in pod see also
+    - test scripts with do instead of executing perl
+    - eval script with do for usage test
+    - use Test::Strict for syntax check
+    - test that syntax check processes all files
+    - test dot syntax only if graphviz is installed
+    - add missing prerequisites
+
 1.00 2012-06-11
     - add readme for CPAN
     - move Net::OSPF to OSPF::LSDB to be CPAN compliant

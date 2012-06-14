@@ -62,7 +62,7 @@ upgrade the file.
 
 =cut
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 =pod
 
@@ -395,7 +395,7 @@ L<OSPF::LSDB::YAML>,
 L<OSPF::LSDB::gated>,
 L<OSPF::LSDB::ospfd>
 
-ospfconvert(1)
+L<ospfconvert>
 
 RFC 2328 - OSPF Version 2 - April 1998
 

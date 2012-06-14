@@ -1843,8 +1843,8 @@ sub legend_summary {
 L<OSPF::LSDB>,
 L<OSPF::LSDB::View>
 
-ospf2dot(1),
-ospfview(1)
+L<ospf2dot>,
+L<ospfview>
 
 RFC 5340 - OSPF for IPv6 - July 2008
 

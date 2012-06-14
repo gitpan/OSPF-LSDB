@@ -2,6 +2,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME		=> 'OSPF::LSDB',
+    AUTHOR		=> 'BLUHM (bluhm@cpan.org)',
     EXE_FILES		=> [qw(
 	script/ospf2dot
 	script/ospfd2yaml
@@ -21,12 +22,15 @@ WriteMakefile(
     SIGN		=> 1,
     VERSION_FROM	=> 'lib/OSPF/LSDB.pm',
     PREREQ_PM		=> {
-	"Regexp::Common"		=> 0,
-	"Regexp::IPv6"			=> 0,
 	"Data::Validate"		=> 0,
 	"Data::Validate::Struct"	=> 0,
 	"File::Slurp"			=> 0,
-	"YAML::Syck"			=> 0,
+	"List::MoreUtils"		=> 0,
+	"Regexp::Common"		=> 0,
+	"Regexp::IPv6"			=> 0,
 	"Test::NoWarnings"		=> 0,  # for test
+	"Test::Pod"			=> 0,  # for test
+	"Test::Strict"			=> 0,  # for test
+	"YAML::Syck"			=> 0,
     },
 );
