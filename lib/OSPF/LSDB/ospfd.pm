@@ -29,6 +29,8 @@ use OSPF::LSDB::ospfd;
 
 my $ospfd = OSPF::LSDB::ospfd-E<gt>L<new>();
 
+my $ospfd = OSPF::LSDB::ospfd-E<gt>L<new>(ssh => "user@host");
+
 $ospfd-E<gt>L<parse>(%files);
 
 =head1 DESCRIPTION
@@ -46,6 +48,8 @@ is needed.
 It can be given as separate files or obtained dynamically.
 In the latter case B<sudo> is invoked if permissions are not
 sufficient to run B<ospfctl>.
+If the object has been created with the C<ssh> argument, the specified
+user and host are used to login and run B<ospfctl> there.
 
 There is only one public method:
 
@@ -80,9 +84,13 @@ my $IP = qr/$RE{net}{IPv4}{-keep}/;
 sub ospfctl_show {
     my OSPF::LSDB::ospfd $self = shift;
     my @cmd = ($self->{ospfctl}, "show", @_);
-    # no sudo if user is root or in wheel group
-    # srw-rw----  1 root  wheel  0 Jun 13 10:10 /var/run/ospfd.sock
-    unshift @cmd, "sudo" if $> != 0 && $) !~ /\b0\b/;
+    if ($self->{ssh}) {
+	unshift @cmd, "ssh", $self->{ssh};
+    } else {
+	# no sudo if user is root or in wheel group
+	# srw-rw----  1 root  wheel  0 Jun 13 10:10 /var/run/ospfd.sock
+	unshift @cmd, "sudo" if $> != 0 && $) !~ /\b0\b/;
+    }
     my @lines = wantarray ? `@cmd` : scalar `@cmd`;
     die "Command '@cmd' failed: $?\n" if $?;
     return wantarray ? @lines : $lines[0];
@@ -258,7 +266,7 @@ sub parse_network {
 	    $rnum-- if defined $rnum ;
 	    push @$attachments, { routerid => $1 };
 	} elsif (! /^(Options|Checksum|Length):/) {
-	    die "$_ Unknown line at network $network in area $area.";
+	    die "$_ Unknown line at network $network in area $area.\n";
 	}
     }
     die "Attached routers of network $network in area $area not finished.\n"
@@ -387,7 +395,7 @@ sub parse_external {
 	} elsif (/^    Forwarding Address: $IP$/) {
 	    $e->{forward} = $1;
 	} elsif (! /^(Options|Checksum|Length|    External Route Tag):/) {
-	    die "$_ Unknown line at external $external.";
+	    die "$_ Unknown line at external $external.\n";
 	}
     }
     die "External $external not finished.\n" if $e;

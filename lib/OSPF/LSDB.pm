@@ -48,7 +48,7 @@ version 2, have kept their old names to allow code reuse.
 
 package OSPF::LSDB;
 use Data::Validate::Struct;
-use fields qw(ospf errors);
+use fields qw(ospf errors ssh);
 
 =pod
 
@@ -62,7 +62,7 @@ upgrade the file.
 
 =cut
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 =pod
 
@@ -78,10 +78,12 @@ instances and use their specific features.
 
 sub new {
     my OSPF::LSDB $self = shift;
-    my($other) = @_;
+    my $other = shift if UNIVERSAL::isa($_[0], "OSPF::LSDB");
+    my %args = @_;
     $self = fields::new($self) unless (ref $self);
     $self->{ospf}{version} = $VERSION;
     $self->{ospf} = $other->{ospf} if $other;  # copy constructor
+    $self->{ssh} = $args{ssh};
     return $self;
 }
 

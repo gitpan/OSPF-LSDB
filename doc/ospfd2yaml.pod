@@ -8,6 +8,7 @@ B<ospfd2yaml>
 [B<-B> F<boundary>]
 [B<-E> F<external>]
 [B<-h>]
+[B<-H> I<user@host>]
 [B<-I> F<selfid>]
 [B<-N> F<network>]
 [B<-R> F<router>]
@@ -58,6 +59,11 @@ It can be obtained with B<ospfctl show database external>.
 =item B<-h>
 
 Show help message and exit.
+
+=item B<-H> I<user@host>
+
+The specified user and host are used for ssh login and run B<ospfctl>
+there.
 
 =item B<-I> F<selfid>
 

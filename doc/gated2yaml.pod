@@ -7,6 +7,7 @@ B<gated2yaml> - convert B<gated> OSPF LSDB to YAML file
 B<gated2yaml>
 [B<-D> F<dump>]
 [B<-h>]
+[B<-H> I<user@host>]
 [B<-S> I<skip>]
 [F<ospf.yaml>]
 
@@ -41,6 +42,11 @@ F</var/tmp/gated_dump>.
 =item B<-h>
 
 Show help message and exit.
+
+=item B<-H> I<user@host>
+
+The specified user and host are used for ssh login and run B<gdc
+dump> there.
 
 =item B<-S> I<skip>
 

@@ -34,26 +34,27 @@ sub usage(@) {
     print STDERR <<EOF;
 Periodically poll OSPF database from routing daemon and display it on X11.
 
-Usage: $0 [-46bBcdDeEhlpPsSwWv] [-I interval]
-    -4          disable IPv6
-    -6          enable IPv6
-    -b          generate other area AS boundary router summary
-    -B          aggregate other area AS boundary router summary
-    -c          cluster identical networks
-    -d          show OSPF database diff between updates
-    -D          dump OSPF database after updates as YAML to stdout
-    -e          generate AS external networks
-    -E          aggregate AS external networks
-    -h          help, print usage
-    -I interval query interval in seconds, default 5
-    -l          generate legend
-    -p          generate link and intra-area-prefix
-    -P          generate intra-area-prefix
-    -s          generate other area network summary
-    -S          aggregate other area network summary
-    -w          show most serious warning in dot graph
-    -W          show all warnings and areas in dot graph
-    -v          be verbose, print warnings to stdout
+Usage: $0 [-46bBcdDeEhlpPsSwWv] [-H user\@host] [-I interval]
+    -4           disable IPv6
+    -6           enable IPv6
+    -b           generate other area AS boundary router summary
+    -B           aggregate other area AS boundary router summary
+    -c           cluster identical networks
+    -d           show OSPF database diff between updates
+    -D           dump OSPF database after updates as YAML to stdout
+    -e           generate AS external networks
+    -E           aggregate AS external networks
+    -h           help, print usage
+    -H user\@host use ssh to login into user\@host to run ospfctl there
+    -I interval  query interval in seconds, default 5
+    -l           generate legend
+    -p           generate link and intra-area-prefix
+    -P           generate intra-area-prefix
+    -s           generate other area network summary
+    -S           aggregate other area network summary
+    -w           show most serious warning in dot graph
+    -W           show all warnings and areas in dot graph
+    -v           be verbose, print warnings to stdout
 EOF
     exit(2);
 }
@@ -64,6 +65,7 @@ sub main() {
     my $interval = 5;
     my $ipv6;
     my $legend;
+    my $ssh;
     my %todo;
     GetOptions(
 	'4'   => sub { $ipv6 = 0 },
@@ -76,6 +78,7 @@ sub main() {
 	'e'   => sub { $todo{external}{generate}  = 1 },
 	'E'   => sub { $todo{external}{aggregate} = 1 },
 	'h'   => sub { usage() },
+	'H=s' => \$ssh,
 	'I=i' => \$interval,
 	'l'   => \$legend,
 	'p'   => sub { $todo{prefix}{generate}    = 1 },
@@ -141,7 +144,8 @@ sub main() {
 	}
 	$oldtime = $time;
 
-	my $ospf = $ipv6 ? OSPF::LSDB::ospf6d->new() : OSPF::LSDB::ospfd->new();
+	my $ospfclass = $ipv6 ? 'OSPF::LSDB::ospf6d' : 'OSPF::LSDB::ospfd';
+	my $ospf = $ospfclass->new(ssh => $ssh);
 	$ospf->parse();
 
 	my $yamlospf = OSPF::LSDB::YAML->new($ospf);

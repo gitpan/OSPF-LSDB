@@ -29,6 +29,8 @@ use OSPF::LSDB::gated;
 
 my $gated = OSPF::LSDB::gated-E<gt>L<new>();
 
+my $gated = OSPF::LSDB::gated-E<gt>L<new>(ssh => "user@host");
+
 $gated-E<gt>L<parse>(%todo);
 
 =head1 DESCRIPTION
@@ -39,6 +41,8 @@ An existing F<gated_dump> file can be given or it can be created
 dynammically.
 In the latter case B<sudo> is invoked if permissions are not
 sufficient to run B<gdc dump>.
+If the object has been created with the C<ssh> argument, the specified
+user and host are used to login and run B<gdc dump> there.
 
 There is only one public method:
 
@@ -102,11 +106,21 @@ sub get_dump {
 	system(@cmd);
     }
     my @cmd = qw(gdc dump);
-    unshift @cmd, "sudo" if $> != 0;
+    if ($self->{ssh}) {
+	unshift @cmd, "ssh", $self->{ssh};
+    } else {
+	unshift @cmd, "sudo" if $> != 0;
+    }
     system(@cmd)
-      and die "Command '@cmd' failed: $?";
+      and die "Command '@cmd' failed: $?\n";
     sleep(1);  # XXX when is gated finished ?
-    @{$self->{dump}} = read_file($file);
+    if ($self->{ssh}) {
+	@cmd = ("ssh", $self->{ssh}, "cat", $file);
+	@{$self->{dump}} = `@cmd`;
+	die "Command '@cmd' failed: $?\n" if $?;
+    } else {
+	@{$self->{dump}} = read_file($file);
+    }
 }
 
 sub parse_links {

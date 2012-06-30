@@ -29,6 +29,8 @@ use OSPF::LSDB::ospf6d;
 
 my $ospf6d = OSPF::LSDB::ospf6d-E<gt>L<new>();
 
+my $ospf6d = OSPF::LSDB::ospf6d-E<gt>L<new>(ssh => "user@host");
+
 $ospf6d-E<gt>L<parse>(%files);
 
 =head1 DESCRIPTION
@@ -48,6 +50,8 @@ is needed.
 It can be given as separate files or obtained dynamically.
 In the latter case B<sudo> is invoked if permissions are not
 sufficient to run B<ospf6ctl>.
+If the object has been created with the C<ssh> argument, the specified
+user and host are used to login and run B<ospf6ctl> there.
 
 There is only one public method:
 
@@ -213,7 +217,7 @@ sub parse_network {
 	    $rnum-- if defined $rnum ;
 	    push @$attachments, { routerid => $1 };
 	} elsif (! /^(Options|Checksum|Length):/) {
-	    die "$_ Unknown line at network $network in area $area.";
+	    die "$_ Unknown line at network $network in area $area.\n";
 	}
     }
     die "Attached routers of network $network in area $area not finished.\n"
@@ -271,7 +275,7 @@ sub parse_external {
 	    $e->{prefixaddress} = $1;
 	    $e->{prefixlength} = $2;
 	} elsif (! /^(Checksum|Length|    Flags):/) {
-	    die "$_ Unknown line at external $external.";
+	    die "$_ Unknown line at external $external.\n";
 	}
     }
     die "External $external not finished.\n" if $e;
@@ -325,7 +329,7 @@ sub parse_link {
 	    $pnum-- if defined $pnum ;
 	    push @$prefixes, { prefixaddress => $1, prefixlength => $2 };
 	} elsif (! /^(Options|Checksum|Length):/) {
-	    die "$_ Unknown line at link $link in area $area.";
+	    die "$_ Unknown line at link $link in area $area.\n";
 	}
     }
     die "Prefixes of link $link in area $area not finished.\n" if $prefixes;
@@ -348,8 +352,8 @@ sub parse_intra {
 	} elsif (/^$/) {
 	    die "$_ Too few prefixes at intra-area-prefix $intra ".
 	      "in area $area.\n" if $pnum;
-	    die "$_ Intra-area-prefix $intra in area $area hast no type.\n"
-	      if $i && ! $type;
+	    die "$_ Intra-area-prefix $intra in area $area has no ".
+	      "referenced LS type.\n" if $i && ! $type;
 	    undef $type;
 	    undef $prefixes;
 	    undef $i;
@@ -373,14 +377,16 @@ sub parse_intra {
 	} elsif (/^LS Seq Number: (0x$RE{num}{hex})$/) {
 	    $i->{sequence} = $1;
 	} elsif (/^Referenced LS Type: (\w+)$/) {
-	    die "$_ Referenced LS type given more than once.\n" if $type;
+	    die "$_ Referenced LS type given more than once ".
+	      "at intra-area-prefix $intra in area $area.\n" if $type;
 	    $type = $1;
 	    if ($type eq "Router") {
 		push @intrarouters, $i
 	    } elsif ($type eq "Network") {
 		push @intranetworks, $i
 	    } else {
-		die "$_ Unknown referenced LS type $type";
+		die "$_ Unknown referenced LS type $type ".
+	        "at intra-area-prefix $intra in area $area.\n";
 	    }
 	} elsif (/^Referenced Link State ID: $IP$/) {
 	    $i->{interface} = $1;
@@ -388,7 +394,7 @@ sub parse_intra {
 	    $i->{router} = $1;
 	} elsif (/^Number of Prefixes: $RE{num}{int}{-keep}$/) {
 	    $pnum = $1;
-	} elsif (/^    Prefix: $PREFIX$/) {
+	} elsif (/^    Prefix: $PREFIX($| Options:)/) {
 	    if (! $prefixes) {
 		$prefixes = [];
 		$i->{prefixes} = $prefixes;
@@ -396,7 +402,7 @@ sub parse_intra {
 	    $pnum-- if defined $pnum ;
 	    push @$prefixes, { prefixaddress => $1, prefixlength => $2 };
 	} elsif (! /^(Checksum|Length):/) {
-	    die "$_ Unknown line at intra-area-prefix $intra in area $area.";
+	    die "$_ Unknown line at intra-area-prefix $intra in area $area.\n";
 	}
     }
     die "Prefixes of intra-area-prefix $intra in area $area not finished.\n"

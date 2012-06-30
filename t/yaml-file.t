@@ -17,6 +17,7 @@ my %tmpargs = (
 
 my $yamlfile = "example/ospf.yaml";
 my $string = slurp($yamlfile);
+$string =~ s/^version: '.*'$/version: '$OSPF::LSDB::VERSION'/m;
 
 my $yaml = OSPF::LSDB::YAML->new();
 $yaml->LoadFile($yamlfile);

@@ -4,7 +4,10 @@ B<ospfview> - periodically display OSPF LSDB as Graphviz dot xlib
 
 =head1 SYNOPSIS
 
-B<ospfview> [B<-46bBcdDeEhlpPsSwWv>] [-I interval]
+B<ospfview>
+[B<-46bBcdDeEhlpPsSwWv>]
+[B<-H> I<user@host>]
+[-I interval]
 
 =head1 DESCRIPTION
 
@@ -76,6 +79,11 @@ same router.
 =item B<-h>
 
 Show help message and exit.
+
+=item B<-H> I<user@host>
+
+The specified user and host are used for ssh login and run B<ospfctl>
+there.
 
 =item B<-I interval>
 

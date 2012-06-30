@@ -27,6 +27,7 @@ ok(!$@, "gated valid") or diag($@);
 my $yaml = OSPF::LSDB::YAML->new($gated);
 my $got = $yaml->Dump();
 my $expected = slurp($yamlfile);
+$expected =~ s/^version: '.*'$/version: '$OSPF::LSDB::VERSION'/m;
 is($got, $expected, "gated yaml") or do {
     my $tmp = File::Temp->new(%tmpargs);
     print $tmp $got;

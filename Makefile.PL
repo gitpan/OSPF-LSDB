@@ -21,6 +21,7 @@ WriteMakefile(
     },
     SIGN		=> 1,
     VERSION_FROM	=> 'lib/OSPF/LSDB.pm',
+    MIN_PERL_VERSION	=> '5.10.0',
     PREREQ_PM		=> {
 	"Data::Validate"		=> 0,
 	"Data::Validate::Struct"	=> 0,

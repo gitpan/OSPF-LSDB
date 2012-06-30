@@ -1218,7 +1218,8 @@ sub create_link {
 	my $area = $l->{area};
 	my $linklocal = $l->{linklocal};
 	my $prefixes = join("\\n",
-	  map { "$_->{prefixaddress}/$_->{prefixlength}" } @{$l->{prefixes}});
+	  map { "$_->{prefixaddress}/$_->{prefixlength}" }
+	  @{$l->{prefixes} || []});
 	my $elem = $lnkhash{$intf}{$rid}{$area};
 	if (! $elem) {
 	    $lnkhash{$intf}{$rid}{$area} = $elem = {};
@@ -1351,7 +1352,7 @@ sub create_intrarouters {
 	push @{$elem->{hashes}}, $i;
 	$elem->{graph}{label} = join("\\n",
 	    map { "$_->{prefixaddress}/$_->{prefixlength}" }
-	    map { @{$_->{prefixes}} } @{$elem->{hashes}});
+	    map { @{$_->{prefixes} || []} } @{$elem->{hashes}});
     }
     $self->{intraroutehash} = \%intraroutehash;
 }
@@ -1459,7 +1460,7 @@ sub create_intranetworks {
 	push @{$elem->{hashes}}, $i;
 	$elem->{graph}{label} = join("\\n",
 	    map { "$_->{prefixaddress}/$_->{prefixlength}" }
-	    map { @{$_->{prefixes}} } @{$elem->{hashes}});
+	    map { @{$_->{prefixes} || []} } @{$elem->{hashes}});
     }
     $self->{intranethash} = \%intranethash;
 }

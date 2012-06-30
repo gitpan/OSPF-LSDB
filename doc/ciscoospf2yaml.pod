@@ -8,6 +8,7 @@ B<ciscoospf2yaml>
 [B<-B> F<boundary>]
 [B<-E> F<external>]
 [B<-h>]
+[B<-H> I<user@host>]
 [B<-I> F<selfid>]
 [B<-N> F<network>]
 [B<-R> F<router>]
@@ -46,6 +47,11 @@ It can be obtained with B<show ip ospf database external>.
 =item B<-h>
 
 Show help message and exit.
+
+=item B<-H> I<user@host>
+
+The specified user and host are used for ssh login otherwise C<cisco>
+is used as host name.
 
 =item B<-I> F<selfid>
 

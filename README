@@ -16,7 +16,8 @@ OSPF::LSDB::YAML    - load and store the OSPF link-state database as YAML
 Additionally the OSPFView package contains command-line tools to
 read the link-state database from an ospf daemon.  Then it creates
 a dot graphic which can be displayed with graphviz.  At the moment
-OpenBSD ospfd and ospf6d and gated 3.6 are supported.
+OpenBSD ospfd and ospf6d and gated 3.6 are supported.  Cisco support
+is experimental.
 
 gated2yaml          - convert gated OSPF LSDB to YAML file
 ospf2dot            - convert OSPF LSDB YAML to Graphviz dot

@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               OSPF-LSDB
-version:            1.01
+version:            1.02
 abstract:           ~
 author:
     - BLUHM (bluhm@cpan.org)
@@ -15,6 +15,7 @@ requires:
     Data::Validate::Struct:  0
     File::Slurp:          0
     List::MoreUtils:      0
+    perl:                 5.010000
     Regexp::Common:       0
     Regexp::IPv6:         0
     Test::NoWarnings:     0

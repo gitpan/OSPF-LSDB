@@ -67,6 +67,8 @@ t/example-ospfd.t
 t/example-view.t
 t/ipv6.t
 t/parse-ospf6d-external.t
+t/parse-ospf6d-intra.t
+t/parse-ospf6d-link.t
 t/parse-ospf6d-network.t
 t/parse-ospf6d-router.t
 t/parse-ospf6d-self.t

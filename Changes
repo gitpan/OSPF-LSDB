@@ -1,3 +1,11 @@
+1.02 2012-06-30
+    - test parsing ospf6d intra-area-prefix-LSAs and link-LSAs
+    - empty prefix arrays may not exist, OSPF::LSDB::View6 must not die
+    - fix parsing of ospf6d intra-area-prefix-LSA router prefix options
+    - if -H user@host is given, use ssh to login and receive lsdb from there
+    - make tests independent from version number in examples
+    - minimum perl version is 5.10.0
+
 1.01 2012-06-14
     - fix links in pod see also
     - test scripts with do instead of executing perl

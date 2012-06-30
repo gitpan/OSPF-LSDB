@@ -29,6 +29,7 @@ ok(!$@, "ospf6d valid") or diag($@);
 my $yaml = OSPF::LSDB::YAML->new($ospf6d);
 my $got = $yaml->Dump();
 my $expected = slurp($files{yaml});
+$expected =~ s/^version: '.*'$/version: '$OSPF::LSDB::VERSION'/m;
 is($got, $expected, "ospf6d yaml") or do {
     my $tmp = File::Temp->new(%tmpargs);
     print $tmp $got;

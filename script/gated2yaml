@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 ##########################################################################
-# Copyright (c) 2010 Alexander Bluhm <alexander.bluhm@gmx.net>
+# Copyright (c) 2010-2012 Alexander Bluhm <alexander.bluhm@gmx.net>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -29,25 +29,27 @@ Convert gated OSPF link state database to YAML file.  If the gated
 dump content file is not given on the command line, gdc is invoked
 on the local machine.
 
-Usage: $0 [-h] [-D dump] [-S skip] [ospf.yaml]
-    -h          help, print usage
-    -D dump     file containg output of 'gdc dump'
-    -S skip     skip first number of gated entries in dump file
-    ospf.yaml   output file, default stdout
+Usage: $0 [-h] [-D dump] [-H user\@host] [-S skip] [ospf.yaml]
+    -h           help, print usage
+    -D dump      file containg output of 'gdc dump'
+    -H user\@host use ssh to login into user\@host to run gdc there
+    -S skip      skip first number of gated entries in dump file
+    ospf.yaml    output file, default stdout
 EOF
     exit(2);
 }
 
 sub main() {
-    my($file, $skip);
+    my($file, $ssh, $skip);
     GetOptions(
 	'h'   => sub { usage() },
 	'D=s' => \$file,
+	'H=s' => \$ssh,
 	'S=i' => \$skip,
     ) or usage("Bad option");
     usage("Only one argument allowed") if @ARGV > 1;
 
-    my $gated = OSPF::LSDB::gated->new();
+    my $gated = OSPF::LSDB::gated->new(ssh => $ssh);
     my $ospf = $gated->parse(dump => !$file, file => $file, skip => $skip);
 
     my $yaml = OSPF::LSDB::YAML->new($gated);

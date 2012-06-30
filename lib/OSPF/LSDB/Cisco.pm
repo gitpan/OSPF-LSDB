@@ -29,6 +29,8 @@ use OSPF::LSDB::Cisco;
 
 my $cisco = OSPF::LSDB::Cisco-E<gt>L<new>();
 
+my $cisco = OSPF::LSDB::Cisco-E<gt>L<new>(ssh => "user@host");
+
 $cisco-E<gt>L<parse>(%files);
 
 =head1 DESCRIPTION
@@ -45,6 +47,9 @@ C<show ip ospf database external>
 is needed.
 It can be given as separate files or obtained dynamically.
 In the latter case B<ssh> is invoked.
+If the object has been created with the C<ssh> argument, the specified
+user and host are used to login otherwise C<cisco> is used as host
+name.
 
 There is only one public method:
 
@@ -70,7 +75,8 @@ sub _pack2ip($) { join('.', unpack("CCCC", $_[0])) }
 
 sub ssh_show {
     my OSPF::LSDB::Cisco $self = shift;
-    my @cmd = (qw(ssh cisco show ip ospf), @_);
+    my $host = $self->{ssh} || "cisco";
+    my @cmd = ("ssh", $host, "show", "ip", "ospf", @_);
     my @lines = wantarray ? `@cmd` : scalar `@cmd`;
     die "Command '@cmd' failed: $?\n" if $?;
     return wantarray ? @lines : $lines[0];
