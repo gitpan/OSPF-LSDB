@@ -56,6 +56,7 @@ script/ospf2dot
 script/ospfconvert
 script/ospfd2yaml
 script/ospfview
+script/ospfview.cgi
 t/dot-tests.pl
 t/dot.t
 t/dot6-tests.pl
@@ -84,6 +85,7 @@ t/script-ospf2dot.t
 t/script-ospfconvert.t
 t/script-ospfd2yaml.t
 t/script-usage.t
+t/syntax-cgi.t
 t/syntax-lib.t
 t/syntax-pod.t
 t/syntax-script.t

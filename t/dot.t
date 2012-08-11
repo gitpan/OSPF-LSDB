@@ -58,7 +58,7 @@ foreach my $t (@$tests) {
       or diag(explain \%colors);
 
     my %clusters;
-    while ($dot =~ /\ssubgraph "cluster ([\w.\/]+)" {\s/g) {
+    while ($dot =~ /\ssubgraph "cluster ([\w.\/]+)" \{\s/g) {
 	$clusters{$1}++;
     }
     is_deeply(\%clusters, $t->{clusters}, "$t->{id}: clusters")

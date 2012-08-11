@@ -386,7 +386,7 @@ sub parse_intra {
 		push @intranetworks, $i
 	    } else {
 		die "$_ Unknown referenced LS type $type ".
-	        "at intra-area-prefix $intra in area $area.\n";
+		  "at intra-area-prefix $intra in area $area.\n";
 	    }
 	} elsif (/^Referenced Link State ID: $IP$/) {
 	    $i->{interface} = $1;
@@ -426,7 +426,7 @@ sub parse_lsdb {
 =item $self-E<gt>L<parse>(%files)
 
 This function takes a hash with file names as value containing the
-B<ospfctl> output data.
+B<ospf6ctl> output data.
 The hash keys are named C<selfid>, C<router>, C<network>, C<summary>,
 C<boundary>, C<external>, C<link>, C<intra>.
 If a hash entry is missing, B<ospf6ctl> is run instead to obtain the

@@ -420,7 +420,8 @@ sub transit2edges {
 			}
 			my $metric = $link->{metric};
 			# link from designated router to attached net
-			my $style = $addr eq $intf ? "bold" : "solid";
+			my $style = $netrid eq $rid && $addr eq $intf ?
+			  "bold" : "solid";
 			delete $colors{magenta};
 			delete $colors{brown};
 			delete $colors{tan};
@@ -445,10 +446,6 @@ sub transit2edges {
 			    $self->error($colors{brown} =
 			      "Transit link at router $rid not attached ".
 			      "by network $nid in area $area.");
-			} elsif ($addr eq $intf && $netrid ne $rid) {
-			    $self->error($colors{tan} =
-			      "Transit link at router $rid in area $area ".
-			      "is designated but network $nid is not.");
 			}
 			my $dst = $ev->{graph}{N};
 			push @elements, { graph => {
@@ -573,6 +570,41 @@ sub create_network {
     $self->{nets} = \%nets;
     # TODO netareas should handle prefixes
     $self->{netareas} = \%netareas;
+}
+
+# take network hash,
+# intra network hash
+# add missing networks to network hash
+sub add_missing_network {
+    my OSPF::LSDB::View6 $self = shift;
+    my($index) = @_;
+    my $intranethash = $self->{intranethash};
+    my $nethash = $self->{nethash} or die "Uninitialized member";
+    my $nets = $self->{nets} or die "Uninitialized member";
+    my $netareas = $self->{netareas} or die "Uninitialized member";
+    while (my($addr,$av) = each %$intranethash) {
+	while (my($rid,$rv) = each %$av) {
+	    while (my($area,$ev) = each %$rv) {
+		my $elem = $nethash->{$addr}{$rid}{$area};
+		if (! $elem) {
+		    $nets->{$addr}{$rid}++;
+		    $netareas->{$addr}{$rid}{$area}++;
+		    $nethash->{$addr}{$rid}{$area} = $elem = {};
+		    $elem->{graph} = {
+			N     => "network". $$index++,
+			label => "$addr\\n$rid",
+			shape => "ellipse",
+			style => "dotted",
+		    };
+		    push @{$elem->{hashes}}, {
+			area     => $area,
+			routerid => $rid,
+		    };
+		    $elem->{missing}++;
+		}
+	    }
+	}
+    }
 }
 
 # take hash containing network nodes
@@ -1489,7 +1521,6 @@ sub intranetwork2edges {
 		my $src = $av->{graph}{N};
 		my $dst = $nethash->{$intf}{$rid}{$area}{graph}{N}
 		  or die "No network graph $intf $rid $area";
-		# TODO create missing network
 		my %colors;
 		$colors{gray} = $area;
 		foreach my $i (@{$av->{hashes}}) {

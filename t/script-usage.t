@@ -35,7 +35,7 @@ foreach (@scripts) {
 
 my %files = map { $_ => 1 } @scripts;
 sub wanted {
-    ! /[A-Z]/ && -f or return;
+    ! /[A-Z]/ && ! /\.cgi$/ && -f or return;
     ok($files{$File::Find::name}, "$File::Find::name file")
 	or diag("Executable file $File::Find::name not in script list");
 }

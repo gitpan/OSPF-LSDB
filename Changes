@@ -1,3 +1,11 @@
+1.03 2012-08-11
+    - intra-area-network-LSAs create missing networks
+    - ospfview kills dot view when there is no ospfd available
+    - fix ipv6 designated transit link detection
+    - ospfview warns but continues when ospf parse fails
+    - add syntax and taint mode check for cgi scripts
+    - add ospfview.cgi to display the ospf graph by a web server
+
 1.02 2012-06-30
     - test parsing ospf6d intra-area-prefix-LSAs and link-LSAs
     - empty prefix arrays may not exist, OSPF::LSDB::View6 must not die

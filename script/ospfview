@@ -146,7 +146,19 @@ sub main() {
 
 	my $ospfclass = $ipv6 ? 'OSPF::LSDB::ospf6d' : 'OSPF::LSDB::ospfd';
 	my $ospf = $ospfclass->new(ssh => $ssh);
-	$ospf->parse();
+	eval { $ospf->parse(); };
+	if ($@) {
+	    warn $@;
+	    if ($pid) {
+		kill SIGTERM, $pid;
+		unless (close($fh)) {
+		    die "'@cmd' failed: $?" if WIFSIGNALED($?) &&
+			WTERMSIG($?) != SIGTERM;
+		}
+		undef $pid;
+	    }
+	    next;
+	}
 
 	my $yamlospf = OSPF::LSDB::YAML->new($ospf);
 	if (defined $ipv6 && $ipv6 != $yamlospf->ipv6()) {
@@ -181,12 +193,12 @@ sub main() {
 	}
 
 	if ($pid) {
-		kill SIGTERM, $pid;
-		undef $pid;
-		unless (close($fh)) {
-		    die "'@cmd' failed: $?" if WIFSIGNALED($?) &&
-			WTERMSIG($?) != SIGTERM;
-		}
+	    kill SIGTERM, $pid;
+	    unless (close($fh)) {
+		die "'@cmd' failed: $?" if WIFSIGNALED($?) &&
+		    WTERMSIG($?) != SIGTERM;
+	    }
+	    undef $pid;
 	}
 	$pid = open($fh, '|-', @cmd)
 	    or die "Open pipe to '@cmd' failed: $!";

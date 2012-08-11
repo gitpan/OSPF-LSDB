@@ -988,7 +988,7 @@ sub check_network {
 # return network hash
 sub create_network {
     my OSPF::LSDB::View $self = shift;
-    my $index = 0;
+    my($index) = @_;
     my %nethash;
     my %nets;
     my %netareas;
@@ -1005,7 +1005,7 @@ sub create_network {
 	if (! $elem) {
 	    $nethash{$addr}{$mask}{$rid}{$area} = $elem = {};
 	    $elem->{graph} = {
-		N     => "network". $index++,
+		N     => "network". $$index++,
 		label => "$net\\n$mask",
 		shape => "ellipse",
 		style => "bold",
@@ -1019,6 +1019,12 @@ sub create_network {
     $self->{nethash} = \%nethash;
     $self->{nets} = \%nets;
     $self->{netareas} = \%netareas;
+}
+
+# only necessary for ipv6
+sub add_missing_network {
+    my OSPF::LSDB::View $self = shift;
+    my($index) = @_;
 }
 
 # take hash containing network nodes
@@ -2043,15 +2049,21 @@ sub graph_database {
     my $todo = $self->{todo};
 
     # convert ospf structure into separate hashes and create cluster hashes
+    my $netindex = 0;
+    $self->create_network(\$netindex);
+    if ($todo->{intra}) {
+	$self->create_intranetworks()			if $self->ipv6;
+    }
+    # add missing network may add graphs to nethash
+    # must be called before add_transit_value in create_router
+    $self->add_missing_network(\$netindex);
     my $routeindex = 0;
-    $self->create_network();
     $self->create_router(\$routeindex);
     if ($todo->{link}) {
 	$self->create_link()				if $self->ipv6;
     }
     if ($todo->{intra}) {
 	$self->create_intrarouters()			if $self->ipv6;
-	$self->create_intranetworks()			if $self->ipv6;
     }
     $self->create_summary() if $todo->{summary};
     $self->create_boundary() if $todo->{boundary};

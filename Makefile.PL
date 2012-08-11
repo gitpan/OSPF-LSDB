@@ -10,6 +10,7 @@ WriteMakefile(
 	script/ospfconvert
 	script/ciscoospf2yaml
 	script/ospfview
+	script/ospfview.cgi
     )],
     MAN1PODS		=> {
 	'doc/ospf2dot.pod'	=> 'blib/man1/ospf2dot.1',
