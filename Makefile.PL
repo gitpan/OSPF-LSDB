@@ -19,6 +19,7 @@ WriteMakefile(
 	'doc/ospfconvert.pod'	=> 'blib/man1/ospfconvert.1',
 	'doc/ciscoospf2yaml.pod'	=> 'blib/man1/ciscoospf2yaml.1',
 	'doc/ospfview.pod'	=> 'blib/man1/ospfview.1',
+	'doc/ospfview.cgi.pod'	=> 'blib/man1/ospfview.cgi.1',
     },
     SIGN		=> 1,
     VERSION_FROM	=> 'lib/OSPF/LSDB.pm',

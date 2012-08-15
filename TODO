@@ -12,7 +12,6 @@ Things on my Agenda:
     - better Cisco support
     - display forward address
     - check gated dump skip feature really works
-    - write cgi script
     - visualize the age and sequence number
     - visualize costs with edge weight
     - map router id to host name via dns

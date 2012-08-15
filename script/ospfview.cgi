@@ -17,15 +17,16 @@
 ##########################################################################
 
 # use cgi script with paramter
-#   format   = dot|fig|gif|png|ps|ps2|svg
-#   legend   = 0|1
-#   cluster  = 0|1
-#   boundary = 0|1|2
-#   summary  = 0|1|2
-#   external = 0|1|2
-#   prefix   = 0|1|2
-#   warnings = 0|1|2
+#   format   = dot|fig|gif|pdf|png|ps|ps2|svg|svgz
 #   ipv6     = 0|1
+#   legend   = 0|1
+#   summary  = 0|1|2
+#   boundary = 0|1|2
+#   external = 0|1|2
+#   link     = 0|1
+#   intra    = 0|1
+#   cluster  = 0|1
+#   warnings = 0|1|2
 
 use strict;
 use warnings;
@@ -56,6 +57,11 @@ my %format2content = (
 	extension   => "gif",
 	type        => "image/gif",
     },
+    pdf  => {
+	disposition => "attachment",
+	extension   => "pdf",
+	type        => "application/pdf",
+    },
     png => {
 	disposition => "inline",
 	extension   => "png",
@@ -76,19 +82,27 @@ my %format2content = (
 	extension   => "svg",
 	type        => "image/svg+xml",
     },
+    svgz => {
+	disposition => "inline",
+	extension   => "svg",
+	type        => "image/svg+xml",
+	encoding    => "gzip",
+    },
 );
 my $format = "svg";
 if (param('format') && $format2content{param('format')}) {
-	# param('format') is a key of %format2content, untaint
-	param('format') =~ /^(\w+)$/;
-	$format = $1;
+    # param('format') is a key of %format2content, untaint
+    param('format') =~ /^(\w+)$/;
+    $format = $1;
 }
 
+my $content = $format2content{$format};
 (my $hostname = hostname()) =~ s/\..*//;  # short hostname
 my %header = (
-    -type => $format2content{$format}{type},
-    "Content-Disposition" => "$format2content{$format}{disposition}; ".
-	"filename=\"ospf_$hostname.$format2content{$format}{extension}\"",
+    -type => $content->{type},
+    "Content-Disposition" => "$content->{disposition}; ".
+	"filename=\"ospf_$hostname.$content->{extension}\"",
+    "Content-Encoding" => $content->{encoding} || "identity",
 );
 print header(%header);
 
@@ -106,20 +120,18 @@ if (param('legend')) {
     $ospf->parse();
 
     my %todo;
-    foreach (qw(cluster boundary summary external prefix warning)) {
+    foreach (qw(boundary summary external link intra cluster warning)) {
 	next unless defined(param($_)) && param($_) =~ /^\d+$/;
 	if (/cluster/) {
-	    $todo{$_}              = 1 if param($_) == 1;
+	    $todo{$_}              = 1 if param($_) >= 1;
 	} elsif (/warning/) {
-	    $todo{$_}{single}      = 1 if param($_) == 1;
-	    $todo{$_}{all}         = 1 if param($_) == 2;
-	} elsif (/prefix/) {
-	    $todo{intra}{generate} = 1 if param($_) == 1;
-	    $todo{intra}{generate} = 1 if param($_) == 2;
-	    $todo{link}{generate}  = 1 if param($_) == 2;
+	    $todo{$_}{all}         = 1 if param($_) == 1;
+	    $todo{$_}{single}      = 1 if param($_) >= 2;
+	} elsif (/link|intra/) {
+	    $todo{$_}{generate}    = 1 if param($_) >= 1;
 	} else {
-	    $todo{$_}{aggregate}   = 1 if param($_) == 1;
-	    $todo{$_}{generate}    = 1 if param($_) == 2;
+	    $todo{$_}{generate}    = 1 if param($_) == 1;
+	    $todo{$_}{aggregate}   = 1 if param($_) >= 2;
 	}
     }
     my $view = $viewclass->new($ospf);

@@ -69,6 +69,7 @@ use fields qw(
 sub new {
     my OSPF::LSDB::ospf6d $self = OSPF::LSDB::ospfd::new(@_);
     $self->{ospfctl} = "ospf6ctl";
+    $self->{ospfsock} = "/var/run/ospf6d.sock";
     %{$self->{showdb}} = (%{$self->{showdb}}, (
 	link   => "link",
 	intra  => "intra",

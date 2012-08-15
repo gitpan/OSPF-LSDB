@@ -24,6 +24,7 @@ ospf2dot            - convert OSPF LSDB YAML to Graphviz dot
 ospfconvert         - convert OSPF LSDB file to current version
 ospfd2yaml          - convert OpenBSD ospfd or ospf6d lsdb to YAML file
 ospfview            - periodically display OSPF LSDB as Graphviz dot xlib
+ospfview.cgi        - cgi script to display OSPF graph via web server
 
 INSTALLATION
 

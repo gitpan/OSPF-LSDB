@@ -4,6 +4,7 @@ doc/gated2yaml.pod
 doc/ospf2dot.pod
 doc/ospfconvert.pod
 doc/ospfd2yaml.pod
+doc/ospfview.cgi.pod
 doc/ospfview.pod
 example/all.dot
 example/all.yaml

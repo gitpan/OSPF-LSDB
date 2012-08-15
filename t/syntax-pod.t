@@ -14,6 +14,7 @@ push @pods, map { "doc/$_.pod" } qw(
     gated2yaml
     ospfconvert
     ospfview
+    ospfview.cgi
 );
 push @pods, map { local $_ = $_; s,::,/,g; "lib/$_.pm" } qw(
     OSPF::LSDB

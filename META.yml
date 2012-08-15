@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               OSPF-LSDB
-version:            1.03
+version:            1.04
 abstract:           ~
 author:
     - BLUHM (bluhm@cpan.org)

@@ -60,7 +60,7 @@ use base 'OSPF::LSDB';
 use File::Slurp;
 use Regexp::Common;
 use fields qw(
-    ospfctl showdb
+    ospfctl ospfsock showdb
     selfid
     router network summary boundary external
 );
@@ -68,6 +68,7 @@ use fields qw(
 sub new {
     my OSPF::LSDB::ospfd $self = OSPF::LSDB::new(@_);
     $self->{ospfctl} = "ospfctl";
+    $self->{ospfsock} = "/var/run/ospfd.sock";
     $self->{showdb} = {
 	router   => "router",
 	network  => "network",
@@ -89,7 +90,7 @@ sub ospfctl_show {
     } else {
 	# no sudo if user is root or in wheel group
 	# srw-rw----  1 root  wheel  0 Jun 13 10:10 /var/run/ospfd.sock
-	unshift @cmd, "sudo" if $> != 0 && $) !~ /\b0\b/;
+	unshift @cmd, "sudo" unless -w $self->{ospfsock};
     }
     my @lines = wantarray ? `@cmd` : scalar `@cmd`;
     die "Command '@cmd' failed: $?\n" if $?;
