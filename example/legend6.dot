@@ -82,7 +82,7 @@ digraph "ospf legend" {
 	];
 	edgenetwork5 [
 		style="solid"
-		shape="hexagon"
+		shape="octagon"
 		label="intra-area\nrouter prefix"
 	];
 	edgerouter0 [

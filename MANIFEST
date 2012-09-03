@@ -8,6 +8,7 @@ doc/ospfview.cgi.pod
 doc/ospfview.pod
 example/all.dot
 example/all.yaml
+example/ancient.yaml
 example/cisco.boundary
 example/cisco.external
 example/cisco.network
@@ -15,6 +16,7 @@ example/cisco.router
 example/cisco.selfid
 example/cisco.summary
 example/cisco.yaml
+example/current.yaml
 example/gated.dump
 example/gated.yaml
 example/icon.dot
@@ -58,6 +60,7 @@ script/ospfconvert
 script/ospfd2yaml
 script/ospfview
 script/ospfview.cgi
+t/convert.t
 t/dot-tests.pl
 t/dot.t
 t/dot6-tests.pl

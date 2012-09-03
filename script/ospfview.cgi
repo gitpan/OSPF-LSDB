@@ -97,11 +97,12 @@ if (param('format') && $format2content{param('format')}) {
 }
 
 my $content = $format2content{$format};
+my $v6 = param('ipv6') ? "6" : "";
 (my $hostname = hostname()) =~ s/\..*//;  # short hostname
 my %header = (
     -type => $content->{type},
     "Content-Disposition" => "$content->{disposition}; ".
-	"filename=\"ospf_$hostname.$content->{extension}\"",
+	"filename=\"ospf${v6}_$hostname.$content->{extension}\"",
     "Content-Encoding" => $content->{encoding} || "identity",
 );
 print header(%header);

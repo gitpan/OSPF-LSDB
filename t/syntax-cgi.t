@@ -14,7 +14,8 @@ my @scripts = map { local $_ = $_; "script/$_.cgi" } qw(
 plan tests => 5 * @scripts;
 
 foreach my $file (@scripts) {
-    my @incs = map { "-I $_" } @INC;
+    my @incs = map { "-I '$_'" } grep { $_ }
+	("blib/lib", split(":", $ENV{PERL5LIB} || ""));
     print STDERR grep { ! /^$file syntax OK$/ } `perl @incs -T -c $file 2>&1`;
     cmp_ok($?, '==', 0, "$file syntax") or diag("$file syntax check failed");
     like((slurp($file))[0], qr{^#!/usr/bin/perl -T$}, "$file taint")

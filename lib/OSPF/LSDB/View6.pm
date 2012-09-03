@@ -1629,7 +1629,7 @@ sub legend_edge {
 	    shape => 'hexagon',
 	}, {
 	    label => 'intra-area\nrouter prefix',
-	    shape => 'hexagon',
+	    shape => 'octagon',
 	},
     );
     foreach (@networknodes) {

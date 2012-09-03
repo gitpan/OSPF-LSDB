@@ -1,3 +1,10 @@
+1.05 2012-09-03
+    - test that an ancient yaml file without version can be converted
+    - show intra-area router prefix as octagon in ipv6 legend
+    - next try to fix perl taint mode syntax-cgi test for cpantesters
+    - make ospfview.cgi save to ospf6 file name when ipv6 is used
+    - fix typos in ospfview.cgi man page, from Stuart Henderson
+
 1.04 2012-08-16
     - check ospfd socket permissions instead of user id before invoking sudo
     - add pdf and zipped svg to ospfview.cgi formats

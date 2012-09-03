@@ -89,7 +89,7 @@ as tool tip.
 =head1 DIAGNOSTICS
 
 The program dies if an error occurs.
-Check you web server's error log for messages.
+Check your web server's error log for messages.
 
 =head1 SEE ALSO
 
@@ -105,7 +105,7 @@ Alexander Bluhm
 
 =head1 SECURITY CONSIDERATIONS
 
-It is problably not the best idea to publish one's routing topology
+It is probably not the best idea to publish one's routing topology
 on a public web server.
 This cgi script is intended to debug OSPF in a controlled environment.
 
