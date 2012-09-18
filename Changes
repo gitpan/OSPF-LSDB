@@ -1,3 +1,7 @@
+1.06 2012-09-18
+    - ospfview recognizes when the dot process dies and restarts it
+    - add @INC to syntax-cgi to increase chances that CPAN testers pass
+
 1.05 2012-09-03
     - test that an ancient yaml file without version can be converted
     - show intra-area router prefix as octagon in ipv6 legend

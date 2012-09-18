@@ -103,26 +103,29 @@ sub main() {
 	$todo{link}{generate} = 1 if $todo{prefix}{generate};
     }
 
-    my($pid, $fh);
+    my($pid, $fh, $gone);
     $SIG{INT} = sub {
 	kill SIGTERM, $pid if $pid;
 	$SIG{'INT'}  = 'DEFAULT';
 	kill SIGINT, $$;
+    };
+    $SIG{CHLD} = sub {
+	if ($pid && ! kill(0, $pid)) {
+	    $gone = 1;
+	}
     };
 
     my $class = $ipv6 ? 'OSPF::LSDB::View6' : 'OSPF::LSDB::View';
     my @cmd = qw(dot -Txlib);
     if ($legend) {
 	my $dot = $class->legend();
+	$gone = 0;
 	$pid = open($fh, '|-', @cmd)
 	    or die "Open pipe to '@cmd' failed: $!";
 	print $fh $dot, "\n";
 	# work around the non interruptable wait in CORE::close.
 	IO::Handle::flush($fh);
 	POSIX::close(fileno($fh));
-	$SIG{CHLD} = sub {
-	    # continue after signal
-	};
 	pause();
 	unless (close($fh)) {
 	    die "'@cmd' failed: $?" if WIFSIGNALED($?) &&
@@ -166,7 +169,7 @@ sub main() {
 	}
 	my $yaml = $yamlospf->Dump();
 	$yaml =~ s/^\s+(age|sequence): .*$//mg;
-	next if $oldyaml && $oldyaml eq $yaml;
+	next if $oldyaml && $oldyaml eq $yaml && ! $gone;
 	if ($dump) {
 	    print $yaml;
 	}
@@ -200,6 +203,7 @@ sub main() {
 	    }
 	    undef $pid;
 	}
+	$gone = 0;
 	$pid = open($fh, '|-', @cmd)
 	    or die "Open pipe to '@cmd' failed: $!";
 	print $fh $dot, "\n";
