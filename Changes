@@ -1,3 +1,7 @@
+1.07 2012-09-19
+    - I give up running perl -Tc on CPAN testers for all platforms.
+      skip the -Tc subtest in syntax-cgi.t if it might create problems
+
 1.06 2012-09-18
     - ospfview recognizes when the dot process dies and restarts it
     - add @INC to syntax-cgi to increase chances that CPAN testers pass

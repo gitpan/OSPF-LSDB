@@ -13,11 +13,19 @@ my @scripts = map { local $_ = $_; "script/$_.cgi" } qw(
 
 plan tests => 5 * @scripts;
 
+# loading OSPF::LSDB causes problems on cpantesters.org
+# due to modified INC on some platforms
+my $errout = `perl -I blib/lib -T -e 'use OSPF::LSDB' 2>&1`;
+my $skip_Tc = $? || $errout ? 1 : 0;
+
 foreach my $file (@scripts) {
-    my @incs = map { "-I '$_'" } grep { $_ }
-	("blib/lib", split(":", $ENV{PERL5LIB} || ""), @INC);
-    print STDERR grep { ! /^$file syntax OK$/ } `perl @incs -T -c $file 2>&1`;
-    cmp_ok($?, '==', 0, "$file syntax") or diag("$file syntax check failed");
+    SKIP: {
+	skip "perl taint mode use OSPF::LSDB", 1 if $skip_Tc;
+	print STDERR grep { ! /^$file syntax OK$/ }
+	    `perl -I blib/lib -T -c $file 2>&1`;
+	cmp_ok($?, '==', 0, "$file syntax")
+	    or diag("$file syntax check failed");
+    }
     like((slurp($file))[0], qr{^#!/usr/bin/perl -T$}, "$file taint")
 	or diag("$file taint check failed");
     strict_ok($file, "$file strict") or diag("$file use strict missing");
